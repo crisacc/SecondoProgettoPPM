@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Create a New Goal - Fitness Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Create a New Goal</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            {{ form.description.label_tag }} {{ form.description }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.start_date.label_tag }} {{ form.start_date }}
+                        </div>
+                        <div class="form-group" id="expiration_date_field" style="display: none;">
+                            {{ form.expiration_date.label_tag }} {{ form.expiration_date }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.time_period.label_tag }} {{ form.time_period }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.workout_type.label_tag }} {{ form.workout_type }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.sessions_target.label_tag }} {{ form.sessions_target }}
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Create Goal</button>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a href="{% url 'home' %}">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Custom JS for Showing/Hiding Expiration Date Field -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const timePeriodField = document.querySelector('[name="time_period"]');
+        const expirationDateField = document.getElementById('expiration_date_field');
+
+        function toggleExpirationDateField() {
+            if (timePeriodField.value === 'single') {
+                expirationDateField.style.display = 'block';
+            } else {
+                expirationDateField.style.display = 'none';
+            }
+        }
+
+        timePeriodField.addEventListener('change', toggleExpirationDateField);
+        toggleExpirationDateField();  // Initial check
+    });
+</script>
+</body>
+</html>

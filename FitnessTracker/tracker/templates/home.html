@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Home - Fitness Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for the notification menu */
+        .notification-menu {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+            transition: left 0.3s;
+            z-index: 1050;
+            padding-top: 60px;
+        }
+        .notification-menu.open {
+            left: 0;
+        }
+        .notification-menu-header {
+            padding: 15px;
+            border-bottom: 1px solid #e3e3e3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .notification-menu-body {
+            padding: 15px;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Fitness Tracker</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="notification-icon"><i class="fas fa-bell"></i></a>
+            </li>
+            <li class="nav-item">
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link nav-link">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>This is your home page.</p>
+    <a href="{% url 'workout_new' %}" class="btn btn-primary">Create a New Workout</a>
+    <a href="{% url 'workout_list' %}" class="btn btn-secondary">View My Workouts</a>
+    <a href="{% url 'goal_new' %}" class="btn btn-primary">Create a New Goal</a>
+    <a href="{% url 'goal_list' %}" class="btn btn-secondary">View My Goals</a>
+</div>
+
+<!-- Notification Menu -->
+<div id="notificationMenu" class="notification-menu">
+    <div class="notification-menu-header">
+        <h4>Notifications</h4>
+        <button class="btn btn-link" id="closeNotificationMenu"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="notification-menu-body">
+        {% if messages %}
+            <ul class="list-group">
+                {% for message in messages %}
+                    <li class="list-group-item{% if message.tags %} list-group-item-{{ message.tags }}{% endif %}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No new notifications.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Bootstrap JS, Popper.js, and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Custom JS for Notification Menu -->
+<script>
+    document.getElementById('notification-icon').addEventListener('click', function () {
+        document.getElementById('notificationMenu').classList.add('open');
+    });
+    document.getElementById('closeNotificationMenu').addEventListener('click', function () {
+        document.getElementById('notificationMenu').classList.remove('open');
+    });
+</script>
+</body>
+</html>
